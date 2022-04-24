@@ -13,29 +13,6 @@ NC='\033[0m' # No Color
 # Prompts for configuration preferences
 # --------------------------------------
 
-# Package Manager Prompt
-echo
-echo "Which package manager are you using?"
-select package_command_choices in "Yarn" "npm" "Cancel"; do
-  case $package_command_choices in
-    Yarn ) pkg_cmd='yarn add'; break;;
-    npm ) pkg_cmd='npm install'; break;;
-    Cancel ) exit;;
-  esac
-done
-echo
-
-# File Format Prompt
-echo "Which ESLint and Prettier configuration format do you prefer?"
-select config_extension in ".js" ".json" "Cancel"; do
-  case $config_extension in
-    .js ) config_opening='module.exports = {'; break;;
-    .json ) config_opening='{'; break;;
-    Cancel ) exit;;
-  esac
-done
-echo
-
 # Checks for existing eslintrc files
 if [ -f ".eslintrc.js" -o -f ".eslintrc.yaml" -o -f ".eslintrc.yml" -o -f ".eslintrc.json" -o -f ".eslintrc" ]; then
   echo -e "${RED}Existing ESLint config file(s) found:${NC}"
@@ -84,19 +61,18 @@ echo -e "${GREEN}Configuring your development environment... ${NC}"
 echo
 echo -e "1/4 ${LCYAN}ESLint & Prettier Installation... ${NC}"
 echo
-$pkg_cmd -D eslint prettier eslint-plugin-react-hooks
+npm install -D eslint prettier  eslint-plugin-react-hooks
 
 echo
 echo -e "2/4 ${YELLOW}Conforming to Airbnb's JavaScript Style Guide... ${NC}"
 echo
-$pkg_cmd -D eslint-config-airbnb eslint-plugin-jsx-a11y eslint-plugin-import eslint-plugin-react babel-eslint
+npm install -D eslint-config-airbnb eslint-plugin-jsx-a11y eslint-plugin-import eslint-plugin-react babel-eslint
 
 echo
 echo -e "3/4 ${LCYAN}Making ESlint and Prettier play nice with each other... ${NC}"
 echo "See https://github.com/prettier/eslint-config-prettier for more details."
 echo
-$pkg_cmd -D eslint-config-prettier eslint-plugin-prettier
-
+npm install -D eslint-config-prettier eslint-plugin-prettier
 
 if [ "$skip_eslint_setup" == "true" ]; then
   break
@@ -110,24 +86,30 @@ else
     "airbnb",
     "prettier",
     "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "eslint:recommended", 
+    "plugin:react/recommended", 
+    "plugin:prettier/recommended"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 8,
+    "ecmaVersion": "latest",
     "ecmaFeatures": {
+      "jsx": true,
       "experimentalObjectRestSpread": true,
       "impliedStrict": true,
       "classes": true
-    }
+    },
+    "sourceType": "module"
   },
   "env": {
     "browser": true,
     "node": true,
-    "jquery": true,
+    "es2021": true,
     "jest": true
   },
   "rules": {
+    "react/react-in-jsx-scope": "off"
     "react-hooks/rules-of-hooks": "error",
     "no-debugger": 0,
     "no-alert": 0,
