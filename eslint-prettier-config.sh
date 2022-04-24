@@ -82,6 +82,7 @@ else
   > ".eslintrc${config_extension}" # truncates existing file (or creates empty)
 
   echo ${config_opening}'
+  {
   "extends": [
     "airbnb",
     "prettier",
@@ -197,7 +198,7 @@ else
     "react",
     "react-hooks"
   ]
-}' >> .eslintrc${config_extension}
+}' >> .eslintrc.json
 fi
 
 echo
