@@ -64,7 +64,6 @@ else
     "env": {
         "browser": true,
         "es2021": true,
-        "browser": true,
         "jest": true
     },
     "extends": [
@@ -87,8 +86,17 @@ else
     "prettier",
     "react",
     "react-hooks"
-    ]
+    ],
     "rules": {
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "quotes": [
+          2,
+        "single",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
     }
   }' >> .eslintrc.json
 fi
